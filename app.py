@@ -26,7 +26,7 @@ def init_db():
 @app.route('/')
 def index():
     if 'username' in session:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,7 +45,7 @@ def login():
             # Check if the user is admin
             if username == 'admin':
                 return redirect(url_for('admin'))
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         else:
             flash('Invalid credentials. Please try again.', 'error')
     return render_template('login.html')
@@ -68,11 +68,11 @@ def register():
                 flash('Username already exists. Try another one.', 'error')
     return render_template('register.html')
 
-@app.route('/index')
+@app.route('/home')
 def home():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('index.html', username=session['username'])
+    return render_template('home.html', username=session['username'])
 
 @app.route('/logout')
 def logout():
